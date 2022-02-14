@@ -1,0 +1,75 @@
+<%- include("partials/header") %>
+
+    <h2>İstatistikler</h2>
+
+    <div class="row">
+        <div class="col-lg-3 col-md-12 mt-4 col-sm-12">
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laborum recusandae aliquid maiores expedita
+                libero maxime accusantium enim cupiditate dolor repellat, itaque possimus ducimus rem vitae, doloremque
+                officia perferendis consequuntur impedit!</p>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laborum recusandae aliquid maiores expedita
+                libero maxime accusantium enim cupiditate dolor repellat, itaque possimus ducimus rem vitae, doloremque
+                officia perferendis consequuntur impedit!</p>
+
+        </div>
+        <div class="col-lg-9 col-md-12 col-sm-12">
+            <canvas id="myChart"></canvas>
+        </div>
+    </div>
+
+    <div class="line"></div>
+
+    </div>
+    </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <%- include("partials/footer") %>
+        <script>
+            const labels = [
+                'Ocak',
+                'Şubat',
+                'Mart',
+                'Nisan',
+                'Mayıs',
+                'Haziran',
+                'Temmuz',
+                'Ağustos',
+                'Eylül',
+                'Ekim',
+                'Kasım',
+                'Aralık'
+            ];
+
+            const data = {
+                labels: labels,
+                datasets: [{
+                    label: 'Görüntülenme Sayısı',
+                    backgroundColor: 'rgb(211 172 89)',
+                    borderColor: 'rgb(211 172 89)',
+                    data: [0, 10, 5, 2, 20, 30, 45, 55, 60, 40, 120, 90, 150],
+                }]
+            };
+
+            const config = {
+                type: 'line',
+                data: data,
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        title: {
+                            display: true,
+                            text: 'Aylara Göre Görüntülenme Sayısı İstatistikleri'
+                        }
+                    }
+                }
+            };
+
+            const myChart = new Chart(
+                document.getElementById('myChart'),
+                config
+            );
+        </script>

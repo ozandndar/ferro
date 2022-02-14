@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Menu App</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link
+			href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+			rel="stylesheet"
+			integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+			crossorigin="anonymous"
+		/>
+		<link href="/stylesheets/style.css" rel="stylesheet" />
+		<link
+			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css"
+			rel="stylesheet"
+		/>
+		<link
+			href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600,700&display=swap&subset=latin-ext"
+			rel="stylesheet"
+		/>
+		<script
+			src="https://code.jquery.com/jquery-3.4.1.min.js"
+			integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+			crossorigin="anonymous"
+		></script>
+	</head>
+
+	<body>
+		<section id="admin">
+			<div class="row">
+				<div class="login-area">
+					<form action="/" method="POST">
+						<div class="form-group admin-login">
+							<label for="exampleInputEmail1">Kullanıcı Adı</label>
+							<input type="text" class="form-control" name="username" />
+							<small id="emailHelp" class="form-text text-muted">
+								Kullanıcı adı ve şifrenizi kimse ile paylaşmayınız.
+							</small>
+						</div>
+						<div class="form-group">
+							<label for="exampleInputPassword1">Şifre</label>
+							<input type="password" class="form-control" name="password" />
+						</div>
+						<input type="submit" class="btn btn-warning" value="Giriş Yap" />
+						<div class="message mt-4">
+							<% if(error && error != ''){ %>
+							<div class="alert alert-danger" role="alert">
+								<%= error %>
+							</div>
+							<% } else if(success && success != '') { %>
+							<div class="alert alert-success" role="alert">
+								<%= success %>
+							</div>
+							<% } %>
+						</div>
+					</form>
+				</div>
+				<div class="logo-area d-flex justify-content-center align-items-center flex-fill">
+					<img src="/images/logo.png" alt="">
+				</div>
+			</div>
+		</section>
+	</body>
+</html>
