@@ -7,6 +7,14 @@ const renderRegister = (req, res) => {
     res.render('auth/register')
 }
 
+const renderLogin = (req, res) => {
+    res.render('auth/login');
+}
+
+const renderForgotPassword = (req, res) => {
+    res.render('auth/forgot-password');
+}
+
 const register = async (req, res, next) => {
     try {
         const { username, password } = req.body;
@@ -92,10 +100,6 @@ const register = async (req, res, next) => {
     }
 }
 
-const renderLogin = (req, res) => {
-    res.render('auth/login');
-}
-
 const login = (req, res) => {
     req.flash('success', 'welcome back!');
     const redirectUrl = req.session.returnTo || '/dashboard';
@@ -133,6 +137,7 @@ module.exports = {
     renderLogin,
     renderRegister,
     renderDashboard,
+    renderForgotPassword,
     login,
     register,
     logout,

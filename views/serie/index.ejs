@@ -1,0 +1,254 @@
+<%- include("../partials/header") %>
+    <div class="" style="margin-bottom: 150px;">
+        <div class="row mb-4">
+            <div class="col-md-12">
+                <div class="h-100 p-5 text-white bg-dark rounded-3">
+                    <h2>Seriler</h2>
+                    <p>Bu sayfadan yeni bir seri ekleyebilir, tümünü görüntüleyebilir, düzenleyebilir veya
+                        silebilirsiniz.</p>
+                    <a class="btn btn-outline-light" href="/" type="button"><i class="fas fa-chevron-left"></i> Ana
+                        Menü</a>
+                </div>
+            </div>
+        </div>
+
+        <hr>
+        
+        <div class="row">
+            <div class="col-md-4">
+                <h3 class="mb-4">Seri Oluştur</h3>
+                <form action="/serie" method="POST" class="m-auto needs-validation create">
+                    <div class="form-group mb-3">
+                        <label>Seri Adı *</label>
+                        <input class="form-control" required type="text" name="name" />
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label>Serinin Ait Olduğu Marka *</label>
+                        <select class="form-control" name="makeId" id="" required>
+                            <option value="">Marka seçiniz</option>
+                            <% for(let make of makes) { %>
+                                <option value="<%- make._id %>">
+                                    <%- make.name %>
+                                </option>
+                                <% } %>
+                        </select>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label>Serinin Ait Olduğu Model *</label>
+                        <select class="form-control" name="modelId" id="" required>
+                            <option value="">Lütfen önce marka seçiniz</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group text-end">
+                        <input type="submit" class="btn btn-dark px-4" value="Oluştur" />
+                    </div>
+                </form>
+            </div>
+            <div class="col-md-8">
+                <h3 class="mb-4">Seriler Listesi</h3>
+                <table class="table table-dark table-striped" id="data-table">
+                    <thead>
+                        <tr>
+                            <th>Seri Adı</th>
+                            <th>Marka</th>
+                            <th>Model</th>
+                            <th>İşlemler</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% for(let serie of series) {%>
+                            <tr data-id="<%= serie._id %>" 
+                                data-name="<%= serie.name %>"
+                                data-makeid="<%= serie?.model?.make?._id %>"
+                                data-modelid="<%= serie?.model?._id %>">
+                                <td>
+                                    <%= serie?.name %>
+                                </td>
+                                <td>
+                                    <%= serie?.model?.make?.name %>
+                                </td>
+                                <td>
+                                    <%= serie?.model?.name %>
+                                </td>
+                                <td>
+                                    <a class="btn btn-outline-primary btn-sm" data-bs-toggle="modal"
+                                        data-bs-target="#editModal">Düzenle</a>
+                                    <a class="btn btn-outline-danger btn-sm delete-button">Sil</a>
+                                </td>
+                            </tr>
+                            <% } %>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editModalLabel">Model Düzenle</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="/model" method="POST" class="m-auto needs-validation">
+                        <div class="form-group mb-3">
+                            <label>Model Adı *</label>
+                            <input class="form-control" required type="text" name="name" />
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label>Modelin Ait Olduğu Marka *</label>
+                            <select class="form-control" name="makeId" id="" required>
+                                <option value="">Marka Seçiniz</option>
+                                <% for(let make of makes) { %>
+                                    <option value="<%- make._id %>">
+                                        <%- make.name %>
+                                    </option>
+                                    <% } %>
+                            </select>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label>Serinin Ait Olduğu Model *</label>
+                            <select class="form-control" name="modelId" id="" required>
+                                <option value="">Lütfen önce marka seçiniz</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Kapat</button>
+                    <button type="button" class="btn btn-dark" id="update-button">Güncelle</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <%- include("../partials/footer") %>
+
+        <script>
+            $(document).ready(function () {
+                let selectedId = null;
+                let selectedMakeId = null;
+                let selectedModelId = null;
+                const allData = JSON.parse(`<%- JSON.stringify(makes) %>`);
+                console.log(allData);
+                $('#data-table tbody tr').on('click', function () {
+                    var name = $(this).data('name');
+                    selectedId = $(this).data('id');
+                    selectedMakeId = $(this).data('makeid');
+                    selectedModelId = $(this).data('modelid');
+                    $('#editModal input[name="name"]').val(name);
+                    $('#editModal select[name="makeId"]').val(selectedMakeId);
+                    $('select[name="makeId"]').change();
+                    $('#editModal select[name="modelId"]').val(selectedModelId);
+                });
+
+                $('select[name="makeId"]').on('change', function () {
+                    let makeId = $(this).val();
+                    const models = allData.find(e => e._id == makeId)?.models;
+                    const modelSelect = $(this).closest('form').find('select[name="modelId"]');
+                    modelSelect.empty();
+                    if (models && models.length > 0) {
+                        models.forEach(e => {
+                            modelSelect.append(`<option value="${e._id}">${e.name}</option>`);
+                        });
+                    } else {
+                        modelSelect.append(`<option value="">Lütfen önce marka seçiniz</option>`);
+                    }
+                });
+
+                // make ajax request for update
+                $('#update-button').on('click', function () {
+                    let name = $('#editModal input[name="name"]').val();
+                    let makeId = $('#editModal select[name="makeId"]').val();
+                    let makeName = $('#editModal select[name="makeId"] option:selected').text();
+                    let modelId = $('#editModal select[name="modelId"]').val();
+                    let modelName = $('#editModal select[name="modelId"] option:selected').text();
+                    let formData = $('#editModal form')[0];
+                    let data = $('#editModal form').serialize();
+                    $.ajax({
+                        url: '/serie/' + selectedId,
+                        type: 'PUT',
+                        data: data,
+                        success: function (response) {
+                            $('#data-table tbody tr[data-id="' + selectedId + '"]').data('name', name);
+                            $('#data-table tbody tr[data-id="' + selectedId + '"] td:first').text(name);
+                            $('#data-table tbody tr[data-id="' + selectedId + '"] td:nth-of-type(2)').text(makeName);
+                            $('#data-table tbody tr[data-id="' + selectedId + '"]').data('makeid', makeId);
+                            $('#data-table tbody tr[data-id="' + selectedId + '"] td:nth-of-type(3)').text(modelName);
+                            $('#data-table tbody tr[data-id="' + selectedId + '"]').data('modelid', modelId);
+
+
+                            $('#editModal').modal('hide');
+
+                            Swal.fire({
+                                position: 'bottom-end',
+                                icon: 'success',
+                                title: 'Kayıt Başarıyla Güncellendi.',
+                                showConfirmButton: false,
+                                timer: 1000
+                            })
+                        },
+                        error: function (err) {
+                            console.log(err);
+                            Swal.fire({
+                                position: 'bottom-end',
+                                icon: 'danger',
+                                title: 'Kayıt Güncellenirken Hata Oluştu.',
+                                showConfirmButton: false,
+                                timer: 1000
+                            })
+                        }
+                    });
+                });
+
+                // maje ajax request for delete
+                $('.delete-button').on('click', function () {
+                    Swal.fire({
+                        title: 'Silmek istediğinize emin misiniz?',
+                        text: "Bu işlem geri alınamaz!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Evet, sil!'
+                    }).then((result) => {
+                        if (result.value) {
+                            $.ajax({
+                                url: '/serie/' + selectedId,
+                                type: 'DELETE',
+                                success: function (response) {
+                                    $('#data-table tbody tr[data-id="' + selectedId + '"]').remove();
+                                    Swal.fire({
+                                        position: 'bottom-end',
+                                        icon: 'success',
+                                        title: 'Kayıt Başarıyla Silindi.',
+                                        showConfirmButton: false,
+                                        timer: 1000
+                                    })
+                                },
+                                error: function (err) {
+                                    console.log(err);
+                                    Swal.fire({
+                                        position: 'bottom-end',
+                                        icon: 'danger',
+                                        title: 'Kayıt Silinirken Hata Oluştu.',
+                                        showConfirmButton: false,
+                                        timer: 1000
+                                    })
+                                }
+                            });
+                        }
+                    })
+                });
+            });
+        </script>

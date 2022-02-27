@@ -43,6 +43,10 @@ a:focus {
 	transition: all 0.3s;
 }
 
+button#sidebarCollapse {
+	color: #d8b05b;
+}
+
 .navbar {
 	padding: 15px 10px;
 	background: #fff;

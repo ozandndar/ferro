@@ -7,7 +7,6 @@ const isLoggedIn = (req, res, next) => {
         req.flash('error', 'You must be signed in first!');
         return res.redirect('/');
     }
-    console.log(req.user.isActive)
     if(req.user.isActive === false){
         req.session.returnTo = req.originalUrl
         req.flash('error', 'You must activate your account first!');

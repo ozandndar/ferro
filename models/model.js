@@ -7,10 +7,8 @@ const modelSchema = new Schema({
         required: true,
     },
     make: {
-        id: {
-            type: Schema.Types.ObjectId,
-            ref: 'Make'
-        }
+        type: Schema.Types.ObjectId,
+        ref: 'Make'
     },
     series: [
         {
@@ -20,4 +18,4 @@ const modelSchema = new Schema({
     ]
 });
 
-module.exports = mongoose.model('Model', modelSchema);
+module.exports = mongoose.model('Model', modelSchema, 'models');

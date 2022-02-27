@@ -17,8 +17,10 @@ const mongoSanitize = require('express-mongo-sanitize');
 const ExpressError = require('./utils/ExpressError');
 
 // Routes
-const makeRoutes = require('./routes/make');
 const authRoutes = require('./routes/user');
+const makeRoutes = require('./routes/make');
+const modelRoutes = require('./routes/model');
+const serieRoutes = require('./routes/serie');
 
 const MongoDBStore = require("connect-mongo")(session);
 
@@ -39,11 +41,11 @@ db.once("open", () => {
 const app = express();
 
 // App Configs
+app.use(express.static(path.join(__dirname, 'public')))
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
-app.use(express.static(path.join(__dirname, 'public')))
 app.use(mongoSanitize({
     replaceWith: '_'
 }))
@@ -98,7 +100,8 @@ app.use((req, res, next) => {
 // Routes
 app.use('/', authRoutes);
 app.use('/make', makeRoutes);
-
+app.use('/model', modelRoutes);
+app.use('/serie', serieRoutes);
 
 // Default Error Midddleware
 app.use((err, req, res, next) => {

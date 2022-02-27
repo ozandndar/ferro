@@ -6,17 +6,9 @@ const serieSchema = new Schema({
         type: String,
         required: true,
     },
-    make: {
-        id: {
-            type: Schema.Types.ObjectId,
-            ref: 'Make'
-        }
-    },
-    model: {    
-        id: {
-            type: Schema.Types.ObjectId,
-            ref: 'Model'
-        }
+    model: {
+        type: Schema.Types.ObjectId,
+        ref: 'Model'
     },
 });
 

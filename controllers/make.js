@@ -1,62 +1,41 @@
 const Make = require('../models/make');
+const cloudinary = require('cloudinary').v2;
 
-const renderCreateMakePage = (req, res) => { 
-    res.render('make/create');
-}   
-
-const getAllMakes = (req, res) => {
-    Make.find()
-        .then(makes => {
-            res.render('make/index', { makes });
-        })
-        .catch(err => {
-            console.log(err);
-        });
+const renderAllMakes = async (req, res, next) => {
+    const makes = await Make.find();
+    res.render('make/index', { makes });
 }
 
-const createMake = (req, res) => {
-    const { name, year, model, description, image } = req.body;
-    const newMake = new Make({
+const createMake = async (req, res) => {
+    const { name } = req.body;
+    const logo = {
+        url: req.file.path,
+        name: req.file.originalname
+    }
+
+    const newMake = await new Make({
         name,
-        year,
-        model,
-        description,
-        image
+        logo
     });
-    newMake.save()
-        .then(() => {
-            res.redirect('/make');
-        })
-        .catch(err => {
-            console.log(err);
-        });
+    await newMake.save();
+
+    return res.redirect('/make');
 }
 
-const updateMake = (req, res) => {
-    const { name, year, model, description, image } = req.body;
-    Make.findByIdAndUpdate(req.params.id, {
-        name,
-        year,
-        model,
-        description,
-        image
-    })
-    .then(() => {
-        res.redirect('/make');
-    })
-    .catch(err => {
-        console.log(err);
-    });
-}
+const updateMake = async (req, res) => {
+    const makeObj = {};
+    const { name } = req.body;
 
-const renderEditMakePage = (req, res) => {
-    Make.findById(req.params.id)
-        .then(make => {
-            res.render('make/edit', { make });
-        })
-        .catch(err => {
-            console.log(err);
-        });
+    if(req.file && req.file.path) {
+        makeObj.logo = {
+            url: req.file.path,
+            name: req.file.originalname
+        }
+    }
+    makeObj.name = name;
+    
+    const updatedMake = await Make.findByIdAndUpdate(req.params.id, makeObj);
+    return res.status(200).json(updatedMake);
 }
 
 const deleteMake = async (req, res) => {
@@ -65,13 +44,12 @@ const deleteMake = async (req, res) => {
     const make = await Make.findById(id);
     cloudinary.uploader.destroy(make.logo.filename);
 
-    await Make.findByIdAndDelete(id)
+    await Make.findByIdAndDelete(id);
+    return res.status(200).json({ message: 'Make deleted successfully' });
 }
 
 module.exports = {
-    getAllMakes,
-    renderCreateMakePage,
-    renderEditMakePage,
+    renderAllMakes,
     createMake,
     updateMake,
     deleteMake

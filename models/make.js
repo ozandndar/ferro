@@ -25,21 +25,4 @@ const makeSchema = new Schema({
     }]
 }, opts);
 
-module.exports = mongoose.model('Make', makeSchema);
-
-const serie = {
-    name: "Ford",
-    logo: "https://sadsasa.com",
-    models: [{
-        name: "Focus",
-        make: "Ferrari",
-        series: [
-            {
-                id: 1,
-                name: "1.5 TDCI",
-                make: "Ford",
-                model: "Focus"
-            }
-        ]
-    }]
-}
+module.exports = mongoose.model('Make', makeSchema, 'makes');

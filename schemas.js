@@ -25,10 +25,7 @@ const extension = (joi) => ({
 const Joi = BaseJoi.extend(extension)
 
 const makeSchema = Joi.object({
-    make: Joi.object({
-        name: Joi.string().escapeHTML().required(),
-    }).required(),
-    deleteImages: Joi.array()
+    name: Joi.string().escapeHTML().required(),
 })
 
 module.exports = {
