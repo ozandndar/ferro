@@ -11,7 +11,7 @@ const createModel = async (req, res) => {
     const { name, makeId } = req.body;
     const make = await Make.findById(makeId);
 
-    const model = new Model({ name, make });
+    const model = await new Model({ name, make });
     await model.save();
     
     make.models.push(model);

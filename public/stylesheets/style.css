@@ -281,3 +281,7 @@ button#sidebarCollapse {
 	margin-bottom: 15px;
 	object-fit: cover;
 }
+
+.rich-text .ql-container {
+	min-height: 250px;
+}

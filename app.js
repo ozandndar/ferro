@@ -21,6 +21,7 @@ const authRoutes = require('./routes/user');
 const makeRoutes = require('./routes/make');
 const modelRoutes = require('./routes/model');
 const serieRoutes = require('./routes/serie');
+const carRoutes = require('./routes/car');
 
 const MongoDBStore = require("connect-mongo")(session);
 
@@ -102,6 +103,7 @@ app.use('/', authRoutes);
 app.use('/make', makeRoutes);
 app.use('/model', modelRoutes);
 app.use('/serie', serieRoutes);
+app.use('/car', carRoutes);
 
 // Default Error Midddleware
 app.use((err, req, res, next) => {

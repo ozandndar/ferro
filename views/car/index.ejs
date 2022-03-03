@@ -1,0 +1,446 @@
+<%- include("../partials/header") %>
+  <!-- Theme included stylesheets -->
+  <link href="//cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+  <link href="//cdn.quilljs.com/1.3.6/quill.bubble.css" rel="stylesheet">
+  <div class="" style="margin-bottom: 150px;">
+    <div class="row mb-4">
+      <div class="col-md-12">
+        <div class="h-100 p-5 text-white bg-dark rounded-3">
+          <h2>Araçlar</h2>
+          <p>Bu sayfadan yeni bir araç ekleyebilir, tümünü görüntüleyebilir, düzenleyebilir veya
+            silebilirsiniz.</p>
+          <a class="btn btn-outline-light" href="/" type="button"><i class="fas fa-chevron-left"></i> Ana
+            Menü</a>
+        </div>
+      </div>
+    </div>
+
+    <hr>
+
+    <div class="row">
+      <div class="col-md-4">
+        <h3 class="mb-4">Araç Oluştur</h3>
+        <form action="/car" method="POST" enctype="multipart/form-data" class="m-auto needs-validation create">
+          <div class="form-group mb-3">
+            <label>Araç
+              Adı *</label>
+            <input class="form-control" required type="text" name="name" />
+          </div>
+
+          <div class="form-group mb-3">
+            <label>Marka *</label>
+            <select class="form-control" name="makeId" id="" required>
+              <option value="">Marka seçiniz</option>
+              <% for(let make of makes) { %>
+                <option value="<%- make._id %>">
+                  <%- make.name %>
+                </option>
+                <% } %>
+            </select>
+          </div>
+
+          <div class="form-group mb-3">
+            <label> Model *</label>
+            <select class="form-control" name="modelId" id="" required>
+              <option value="">Lütfen önce marka seçiniz</option>
+            </select>
+          </div>
+
+          <div class="form-group mb-3">
+            <label>Seri *</label>
+            <select class="form-control" name="serieId" id="" required>
+              <option value="">Lütfen önce model seçiniz</option>
+            </select>
+          </div>
+
+          <div class="form-group mb-3">
+            <label>Araç Fiyatı *</label>
+            <input class="form-control" required type="number" name="price" />
+          </div>
+
+          <div class="form-group mb-3">
+            <label>Model Yılı *</label>
+            <input class="form-control" required type="number" name="year" />
+          </div>
+
+          <div class="form-group mb-3">
+            <label>Araç KM *</label>
+            <input class="form-control" required type="number" name="km" />
+          </div>
+
+          <div class="form-group mb-3">
+            <label>Araç Durumu</label>
+            <select class="form-control" type="text" name="status">
+              <option value="İkinci El">İkinci El</option>
+              <option value="Sıfır">Sıfır</option>
+            </select>
+          </div>
+
+          <div class="form-group mb-3">
+            <label>Yakıt Tipi</label>
+            <select class="form-control" type="text" name="fuelType">
+              <option value="Benzin">Benzin</option>
+              <option value="Dizel">Dizel</option>
+              <option value="Hybrid">Hybrid</option>
+              <option value="Elektrik">Elektrik</option>
+            </select>
+          </div>
+
+          <div class="form-group mb-3">
+            <label>Araç Tipi</label>
+            <select class="form-control" type="text" name="vehicleType">
+              <option value="Hatchpack">Hatchpack</option>
+              <option value="Sedan">Sedan</option>
+              <option value="Sport">Sport</option>
+              <option value="Super Sport">Super Sport</option>
+              <option value="SUV">SUV</option>
+              <option value="Cabrio">Cabrio</option>
+              <option value="Coupe">Coupe</option>
+            </select>
+          </div>
+
+          <div class="form-group mb-3">
+            <label>Beygir</label>
+            <input class="form-control" type="number" name="horsePower" />
+          </div>
+
+          <div class="form-group mb-3">
+            <label>Çekiş</label>
+            <select class="form-control" type="text" name="driveTrain">
+              <option value="Önden Çekiş">Önden Çekiş</option>
+              <option value="Arkadan İtiş">Arkadan İtiş</option>
+              <option value="4x4">4x4</option>
+            </select>
+          </div>
+
+          <div class="form-group mb-3">
+            <label>Renk</label>
+            <input class="form-control" type="text" name="color" />
+          </div>
+
+
+          <div class="form-group mb-3">
+            <label>İlan Açıklaması</label>
+            <div class="rich-text">
+              <div id="desc">
+                <br><br><br><br><br><br><br><br><br><br><br><br><br>
+              </div>
+              <input type="hidden" name="description">
+            </div>
+          </div>
+
+          <div class="form-group mb-3">
+            <label>Standart Donanım</label>
+            <div class="rich-text">
+              <div id="baseModel">
+                <br><br><br><br><br><br><br><br><br><br><br><br><br>
+              </div>
+              <input type="hidden" name="baseModel">
+            </div>
+          </div>
+
+          <div class="form-group mb-3">
+            <label>Opsiyonel Donanım</label>
+            <div class="rich-text">
+              <div id="optionalSelection">
+                <br><br><br><br><br><br><br><br><br><br><br><br><br>
+              </div>
+              <input type="hidden" name="optionalSelection">
+            </div>
+          </div>
+
+          <div class="form-group mb-3">
+            <label>Aracın Teknik Özellikleri</label>
+            <div class="rich-text">
+              <div id="technicalDetails">
+                <br><br><br><br><br><br><br><br><br><br><br><br><br>
+              </div>
+              <input type="hidden" name="technicalDetails">
+            </div>
+          </div>
+
+          <div class="form-group mb-3">
+            <label>Tramer Kaydı</label>
+            <textarea class="form-control" name="tramerRecord"></textarea>
+          </div>
+
+          <div class="form-group mb-3">
+            <label>Ekspertiz Rapor Resmi</label>
+            <input type="file" class="form-control" name="expertiseReportImage">
+          </div>
+
+
+          <div class="form-group mb-3">
+            <label>Araç Resimleri *</label>
+            <input type="file" required multiple class="form-control" name="carImages">
+          </div>
+
+          <input type="hidden" name="language" value="tr">
+          <div class="form-group text-end">
+            <input type="submit" class="btn btn-dark px-4" value="Oluştur" />
+          </div>
+        </form>
+      </div>
+      <div class="col-md-8">
+        <h3 class="mb-4">Araçlar Listesi</h3>
+        <table class="table table-dark table-striped" id="data-table">
+          <thead>
+            <tr>
+              <th>İlan Adı</th>
+              <th>Marka</th>
+              <th>Model</th>
+              <th>Seri Adı</th>
+              <th>İşlemler</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% for(let car of cars) {%>
+              <tr data-id="<%= car._id %>" data-name="<%= car.name %>" data-makeid="<%= car?.model?.make?._id %>"
+                data-modelid="<%= car?.model?._id %>">
+                <td>
+                  <%= car?.name %>
+                </td>
+                <td>
+                  <%= car?.serie?.model?.make?.name %>
+                  <img src="<%= car?.serie?.model?.make?.logo?.url %>" height="30" alt="">
+                </td>
+                <td>
+                  <%= car?.serie?.model?.name %>
+                </td>
+                <td>
+                  <%= car?.serie?.name %>
+                </td>
+                <td>
+                  <a class="btn btn-outline-primary btn-sm" data-bs-toggle="modal"
+                    data-bs-target="#editModal">Düzenle</a>
+                  <a class="btn btn-outline-danger btn-sm delete-button">Sil</a>
+                </td>
+              </tr>
+              <% } %>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="editModalLabel">Model Düzenle</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form action="/model" method="POST" class="m-auto needs-validation">
+            <div class="form-group mb-3">
+              <label>Model Adı *</label>
+              <input class="form-control" required type="text" name="name" />
+            </div>
+
+            <div class="form-group mb-3">
+              <label>Modelin Ait Olduğu Marka *</label>
+              <select class="form-control" name="makeId" id="" required>
+                <option value="">Marka Seçiniz</option>
+                <% for(let make of makes) { %>
+                  <option value="<%- make._id %>">
+                    <%- make.name %>
+                  </option>
+                  <% } %>
+              </select>
+            </div>
+
+            <div class="form-group mb-3">
+              <label>Serinin Ait Olduğu Model *</label>
+              <select class="form-control" name="serieId" id="" required>
+                <option value="">Lütfen önce marka seçiniz</option>
+              </select>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-light" data-bs-dismiss="modal">Kapat</button>
+          <button type="button" class="btn btn-dark" id="update-button">Güncelle</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <%- include("../partials/footer") %>
+    <!-- Main Quill library -->
+    <!-- <script src="//cdn.quilljs.com/1.3.6/quill.js"></script> -->
+    <script async src="//cdn.quilljs.com/1.3.6/quill.min.js"></script>
+
+    <script>
+      $(document).ready(function () {
+
+        let selectedId = null;
+        let selectedMakeId = null;
+        let selectedModelId = null;
+        const allData = JSON.parse(`<%- JSON.stringify(makes) %>`);
+        const series = JSON.parse(`<%- JSON.stringify(series) %>`);
+        const cars = JSON.parse(`<%- JSON.stringify(cars) %>`);
+        console.log(cars)
+
+        $('#data-table tbody tr').on('click', function () {
+          var name = $(this).data('name');
+          selectedId = $(this).data('id');
+          selectedMakeId = $(this).data('makeid');
+          selectedModelId = $(this).data('modelid');
+          $('#editModal input[name="name"]').val(name);
+          $('#editModal select[name="makeId"]').val(selectedMakeId);
+          $('select[name="makeId"]').change();
+          $('#editModal select[name="modelId"]').val(selectedModelId);
+        });
+
+        $('select[name="makeId"]').on('change', function () {
+          let makeId = $(this).val();
+          const models = allData.find(e => e._id == makeId)?.models;
+          const modelSelect = $(this).closest('form').find('select[name="modelId"]');
+          modelSelect.empty();
+          if (models && models.length > 0) {
+            models.forEach(e => {
+              modelSelect.append(`<option value="${e._id}">${e.name}</option>`);
+            });
+          } else {
+            modelSelect.append(`<option value="">Lütfen önce marka seçiniz</option>`);
+          }
+          $('select[name="modelId"]').change();
+        });
+
+        $('select[name="modelId"]').on('change', function () {
+          let makeId = $('select[name="makeId"]').val();
+          let modelId = $(this).val();
+          const series = allData.find(e => e._id == makeId)?.models.find(e => e._id == modelId)?.series;
+          console.log(series);
+          const serieSelect = $(this).closest('form').find('select[name="serieId"]');
+          serieSelect.empty();
+          if (series && series.length > 0) {
+            series.forEach(e => {
+              serieSelect.append(`<option value="${e._id}">${e.name}</option>`);
+            });
+          } else {
+            serieSelect.append(`<option value="">Lütfen önce marka seçiniz</option>`);
+          }
+        });
+
+        // make ajax request for update
+        $('#update-button').on('click', function () {
+          let name = $('#editModal input[name="name"]').val();
+          let makeId = $('#editModal select[name="makeId"]').val();
+          let makeName = $('#editModal select[name="makeId"] option:selected').text();
+          let modelId = $('#editModal select[name="modelId"]').val();
+          let modelName = $('#editModal select[name="modelId"] option:selected').text();
+          let formData = $('#editModal form')[0];
+          let data = $('#editModal form').serialize();
+          $.ajax({
+            url: '/serie/' + selectedId,
+            type: 'PUT',
+            data: data,
+            success: function (response) {
+              $('#data-table tbody tr[data-id="' + selectedId + '"]').data('name', name);
+              $('#data-table tbody tr[data-id="' + selectedId + '"] td:first').text(name);
+              $('#data-table tbody tr[data-id="' + selectedId + '"] td:nth-of-type(2)').text(makeName);
+              $('#data-table tbody tr[data-id="' + selectedId + '"]').data('makeid', makeId);
+              $('#data-table tbody tr[data-id="' + selectedId + '"] td:nth-of-type(3)').text(modelName);
+              $('#data-table tbody tr[data-id="' + selectedId + '"]').data('modelid', modelId);
+
+
+              $('#editModal').modal('hide');
+
+              Swal.fire({
+                position: 'bottom-end',
+                icon: 'success',
+                title: 'Kayıt Başarıyla Güncellendi.',
+                showConfirmButton: false,
+                timer: 1000
+              })
+            },
+            error: function (err) {
+              console.log(err);
+              Swal.fire({
+                position: 'bottom-end',
+                icon: 'danger',
+                title: 'Kayıt Güncellenirken Hata Oluştu.',
+                showConfirmButton: false,
+                timer: 1000
+              })
+            }
+          });
+        });
+
+        // maje ajax request for delete
+        $('.delete-button').on('click', function () {
+          Swal.fire({
+            title: 'Silmek istediğinize emin misiniz?',
+            text: "Bu işlem geri alınamaz!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Evet, sil!'
+          }).then((result) => {
+            if (result.value) {
+              $.ajax({
+                url: '/serie/' + selectedId,
+                type: 'DELETE',
+                success: function (response) {
+                  $('#data-table tbody tr[data-id="' + selectedId + '"]').remove();
+                  Swal.fire({
+                    position: 'bottom-end',
+                    icon: 'success',
+                    title: 'Kayıt Başarıyla Silindi.',
+                    showConfirmButton: false,
+                    timer: 1000
+                  })
+                },
+                error: function (err) {
+                  console.log(err);
+                  Swal.fire({
+                    position: 'bottom-end',
+                    icon: 'danger',
+                    title: 'Kayıt Silinirken Hata Oluştu.',
+                    showConfirmButton: false,
+                    timer: 1000
+                  })
+                }
+              });
+            }
+          })
+        });
+
+
+        var toolbarOptions = [
+          ['bold', 'italic', 'underline'],        // toggled buttons
+          [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+          [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
+          [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+          [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
+          [{ 'font': [] }],
+          [{ 'align': [] }],
+        ];
+
+        var options = {
+          modules: {
+            toolbar: toolbarOptions
+          },
+          theme: 'snow'
+        };
+        new Quill('#desc', options);
+        new Quill('#baseModel', options);
+        new Quill('#optionalSelection', options);
+        new Quill('#technicalDetails', options);
+
+        $('form').on('submit', function (e) {
+          $(this).find('.rich-text').each((index, item) => {
+            const richText = $(item).find('.ql-editor')?.html();
+            $(item).find('input[type="hidden"]').val(richText);
+          })
+          return true;
+        })
+
+      });
+    </script>

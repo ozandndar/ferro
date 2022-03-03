@@ -6,6 +6,10 @@ const serieSchema = new Schema({
         type: String,
         required: true,
     },
+    cars: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Car'
+    }],
     model: {
         type: Schema.Types.ObjectId,
         ref: 'Model'

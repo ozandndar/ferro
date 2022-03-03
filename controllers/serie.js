@@ -18,14 +18,11 @@ const createSerie = async (req, res) => {
     const { name, modelId } = req.body;
     const model = await Model.findById(modelId);
 
-    const serie = new Serie({ name, model });
+    const serie = await new Serie({ name, model });
     await serie.save();
 
-    model.series.push(model);
+    model.series.push(serie);
     await model.save();
-
-    console.log(model)
-    console.log(serie)
 
     return res.redirect('/serie');
 }
