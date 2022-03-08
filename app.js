@@ -26,10 +26,10 @@ const apiRoutes = require('./routes/api');
 
 const MongoDBStore = require("connect-mongo")(session);
 
-const dbUrl = process.env.DB_URL || 'mongodb://localhost:27017/ferro';
+const dbUrl = process.env.MONGO_URL || 'mongodb://localhost:27017/ferro';
 
 // Database connection
-mongoose.connect('mongodb://localhost:27017/ferro', {
+mongoose.connect(dbUrl, {
     useNewUrlParser: true,
     useUnifiedTopology: true
 });
@@ -37,7 +37,7 @@ mongoose.connect('mongodb://localhost:27017/ferro', {
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error:"));
 db.once("open", () => {
-    console.log("Database connected")
+    console.log("Database connected", dbUrl);
 })
 
 const app = express();
@@ -119,7 +119,8 @@ app.all('*', (req, res, next) => {
     next(new ExpressError('Page Not Found', 404))
 })
 
-const port = process.env.PORT || 3000;
-app.listen(port, () => {
-    console.log(`Server is running on http://localhost:${port}`);
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, process.env.IP, () => {
+    console.log(`Server is running on http://localhost:${PORT}`);
 })

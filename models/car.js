@@ -61,6 +61,9 @@ const carSchema = new Schema({
   tramerRecord: {
     type: String
   },
+  gearType: {
+    type: String
+  },
   expertiseReportImage: ImageSchema,
   carImages: [
     ImageSchema

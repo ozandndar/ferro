@@ -114,6 +114,15 @@
           </div>
 
           <div class="form-group mb-3">
+            <label>Vites</label>
+            <select class="form-control" type="text" name="gearType">
+              <option value="Otomatik">Otomatik</option>
+              <option value="Yarı Otomatik">Yarı Otomatik</option>
+              <option value="Manuel">Manuel</option>
+            </select>
+          </div>
+
+          <div class="form-group mb-3">
             <label>Renk</label>
             <input class="form-control" type="text" name="color" />
           </div>
@@ -329,6 +338,15 @@
               </div>
 
               <div class="form-group mb-3 col-md-6">
+                <label>Vites</label>
+                <select class="form-control" type="text" name="gearType">
+                  <option value="Otomatik">Otomatik</option>
+                  <option value="Yarı Otomatik">Yarı Otomatik</option>
+                  <option value="Manuel">Manuel</option>
+                </select>
+              </div>
+
+              <div class="form-group mb-3 col-md-6">
                 <label>Renk</label>
                 <input class="form-control" type="text" name="color" />
               </div>
@@ -436,6 +454,7 @@
           $('#editModal select[name="vehicleType"]').val(clickedRowData.vehicleType);
           $('#editModal input[name="horsePower"]').val(clickedRowData.horsePower);
           $('#editModal select[name="driveTrain"]').val(clickedRowData.driveTrain);
+          $('#editModal select[name="gearType"]').val(clickedRowData.gearType);
           $('#editModal input[name="color"]').val(clickedRowData.color);
           $('#editModal textarea[name="tramerRecord"]').val(clickedRowData.tramerRecord);
 
