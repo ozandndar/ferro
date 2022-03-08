@@ -23,8 +23,9 @@ router.route('/')
 
 
 router.route('/:id')
-  .put(isLoggedIn, upload.single('image'), catchAsync(updateCar))
+  .put(isLoggedIn, upload.fields([
+    { name: 'carImages', maxCount: 10 },
+    { name: 'expertiseReportImage', maxCount: 1 }]), catchAsync(updateCar))
   .delete(isLoggedIn, catchAsync(deleteCar));
-
 
 module.exports = router;
