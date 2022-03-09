@@ -26,7 +26,7 @@ const register = async (req, res, next) => {
         const transporter = nodemailer.createTransport({
             host: "smtp-mail.outlook.com", // hostname
             secureConnection: true, // TLS requires secureConnection to be false
-            port: 587, // port for secure SMTP
+            port: 25, // port for secure SMTP
             tls: {
                 ciphers: 'SSLv3'
             },
