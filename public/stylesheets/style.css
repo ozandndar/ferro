@@ -285,3 +285,21 @@ button#sidebarCollapse {
 .rich-text .ql-container {
 	min-height: 250px;
 }
+
+.single-car-image .fa {
+    position: absolute;
+    top: 7px;
+    right: 7px;
+    background: white;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.single-car-image {
+    position: relative;
+}

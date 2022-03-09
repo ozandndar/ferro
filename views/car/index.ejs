@@ -406,6 +406,8 @@
                 <input type="file" required multiple class="form-control" name="carImages">
               </div>
 
+              <div id="car-images" class="d-flex"></div>
+
               <input type="hidden" name="language" value="tr">
             </form>
           </div>
@@ -457,6 +459,14 @@
           $('#editModal select[name="gearType"]').val(clickedRowData.gearType);
           $('#editModal input[name="color"]').val(clickedRowData.color);
           $('#editModal textarea[name="tramerRecord"]').val(clickedRowData.tramerRecord);
+
+          $('#car-images').empty();
+          clickedRowData.carImages.forEach(e => {
+            $('#car-images').append(`<div class="single-car-image" data-id="${e.filename.replace('/', '.')}">
+                <i class="fa fa-times"></i>
+                <img src="${e.url}" style="object-fit: cover; margin: 5px;" width="100" height="100">
+              </div>`)
+          })
 
           editDesc.container.firstChild.innerHTML = clickedRowData.description;
           editBaseModel.container.firstChild.innerHTML = clickedRowData.baseModel;
@@ -579,6 +589,33 @@
           })
         });
 
+        // make ajax request for delete image on click delete icon
+        $(document).on('click', '.single-car-image i', function () {
+          let filename = $(this).closest('.single-car-image').data('id');
+          let parentItem = $(this).closest('.single-car-image');
+          Swal.fire({
+            title: 'Siliniyor...',
+            html: 'Resimler silinince otomatik kapanacaktır.',
+            showConfirmButton: false,
+          })
+          $.ajax({
+            url: `/api/v1/cars/${selectedId}/image?filename=` + filename,
+            type: 'DELETE',
+            success: function (response) {
+              parentItem.remove();
+              Swal.close();
+            },
+            error: function (err) {
+              console.log(err);
+              Swal.close();
+              Swal.fire({
+                title: 'Hata.',
+                html: 'Resimler siliniyorken hata oluştu.',
+                showConfirmButton: true,
+              })
+            }
+          });
+        });
 
         var toolbarOptions = [
           ['bold', 'italic', 'underline'],        // toggled buttons

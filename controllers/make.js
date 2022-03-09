@@ -8,9 +8,10 @@ const renderAllMakes = async (req, res, next) => {
 
 const createMake = async (req, res) => {
     const { name } = req.body;
+    console.log(req.file)
     const logo = {
         url: req.file.path,
-        name: req.file.originalname
+        filename: req.file.filename
     }
 
     const newMake = await new Make({
@@ -29,7 +30,7 @@ const updateMake = async (req, res) => {
     if(req.file && req.file.path) {
         makeObj.logo = {
             url: req.file.path,
-            name: req.file.originalname
+            filename: req.file.filename
         }
     }
     makeObj.name = name;
@@ -42,7 +43,8 @@ const deleteMake = async (req, res) => {
     const { id } = req.params;
 
     const make = await Make.findById(id);
-    cloudinary.uploader.destroy(make.logo.filename);
+    console.log(make.logo)
+    await cloudinary.uploader.destroy(make.logo.filename);
 
     await Make.findByIdAndDelete(id);
     return res.status(200).json({ message: 'Make deleted successfully' });

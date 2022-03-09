@@ -28,8 +28,8 @@ const renderAllCars = async (req, res, next) => {
       }
     }
   })
-  .select('-__v')  
-  .lean();
+    .select('-__v')
+    .lean();
   res.render('car/index', { makes, series, cars });
 }
 
@@ -37,19 +37,18 @@ const createCar = async (req, res) => {
   const { makeId, modelId, serieId } = req.body;
   const newCarObj = { ...req.body };
 
-
   if (req.files) {
     if (req.files.expertiseReportImage) {
       newCarObj.expertiseReportImage = {
         url: req.files.expertiseReportImage[0].path,
-        name: req.files.expertiseReportImage[0].originalname
+        filename: req.files.expertiseReportImage[0].filename
       }
     }
     if (req.files.carImages) {
       newCarObj.carImages = req.files.carImages.map(file => {
         return {
           url: file.path,
-          name: file.originalname
+          filename: file.filename
         }
       })
     }
@@ -58,7 +57,6 @@ const createCar = async (req, res) => {
   const make = await Make.findById(makeId);
   const model = await Model.findById(modelId);
   const serie = await Serie.findById(serieId);
-
 
   const car = new Car({ ...newCarObj, make, model, serie });
   await car.save();
@@ -72,23 +70,26 @@ const createCar = async (req, res) => {
 const updateCar = async (req, res) => {
   const { makeId, modelId, serieId } = req.body;
   const updatedCarObj = { ...req.body };
-
+  const carImages = [];
   if (req.files) {
+
     if (req.files.expertiseReportImage) {
       updatedCarObj.expertiseReportImage = {
         url: req.files.expertiseReportImage[0].path,
-        name: req.files.expertiseReportImage[0].originalname
+        filename: req.files.expertiseReportImage[0].filename
       }
     }
     if (req.files.carImages) {
-      updatedCarObj.carImages = req.files.carImages.map(file => {
+      carImages.push(...req.files.carImages.map(file => {
         return {
           url: file.path,
-          name: file.originalname
+          filename: file.filename
         }
-      })
+      }))
     }
   }
+
+  console.log(carImages);
 
   const make = await Make.findById(makeId);
   const model = await Model.findById(modelId);
@@ -99,6 +100,11 @@ const updateCar = async (req, res) => {
   updatedCarObj.serie = serie;
 
   const updatedCar = await Car.findByIdAndUpdate(req.params.id, updatedCarObj);
+
+  if(carImages.length > 0){
+    updatedCar.carImages.push(...carImages);
+    updatedCar.save();
+  }
 
   return res.status(200).json(updatedCar);
 }
