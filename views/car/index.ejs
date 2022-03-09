@@ -440,9 +440,9 @@
           console.log(clickedRowData)
 
           $('#editModal input[name="name"]').val(clickedRowData.name);
-          $('#editModal select[name="makeId"]').val(clickedRowData.make);
+          $('#editModal select[name="makeId"]').val(clickedRowData.make._id);
           $('#editModal select[name="makeId"]').change();
-          $('#editModal select[name="modelId"]').val(clickedRowData.model);
+          $('#editModal select[name="modelId"]').val(clickedRowData.model._id);
           $('#editModal select[name="modelId"]').change();
           $('#editModal select[name="serieId"]').val(clickedRowData.serie._id);
           $('#editModal select[name="serieId"]').change();
