@@ -424,14 +424,14 @@
     <script async src="//cdn.quilljs.com/1.3.6/quill.min.js"></script>
 
     <script>
-      $(document).ready(function () {
+      $(document).ready(async function () {
 
         let selectedId = null;
         let selectedMakeId = null;
         let selectedModelId = null;
-        const allData = JSON.parse(`<%- JSON.stringify(makes) %>`);
-        const series = JSON.parse(`<%- JSON.stringify(series) %>`);
-        const cars = JSON.parse(`<%- JSON.stringify(cars) %>`);
+        const allData = parser(`<%- JSON.stringify(makes) %>`);
+        const series = parser(`<%- JSON.stringify(series) %>`);
+        const cars = await fetchCars();
         console.log(cars)
 
         $('#data-table tbody tr').on('click', function () {
@@ -614,4 +614,35 @@
         })
 
       });
+
+      const parser = (data) => {
+        data = data.replace(/\\n/g, "\\n")
+          .replace(/\\'/g, "\\'")
+          .replace(/\\"/g, '\\"')
+          .replace(/\\&/g, "\\&")
+          .replace(/\\r/g, "\\r")
+          .replace(/\\t/g, "\\t")
+          .replace(/\\b/g, "\\b")
+          .replace(/\\f/g, "\\f");
+        // remove non-printable and other non-valid JSON chars
+        data = data.replace(/[\u0000-\u0019]+/g, "");
+        console.log(typeof data);
+        const result = JSON.parse(data);
+        console.log(typeof result);
+        console.log(result);
+        return result;
+      }
+
+      async function fetchCars() {
+        Swal.fire({
+          title: 'Yükleniyor...',
+          html: 'Araçlar yüklenince otomatik kapanacaktır.',
+          showConfirmButton: false,
+          imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/29/Loader.gif/480px-Loader.gif'
+        })
+        const response = await fetch('/api/v1/cars');
+        const cars = await response.json();
+        Swal.close();
+        return cars;
+      }
     </script>
