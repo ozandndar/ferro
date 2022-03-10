@@ -54,8 +54,17 @@ const deleteSingleImage = async (req, res, next) => {
   return res.status(400).json({ message: 'Image not found' });
 }
 
+const updateImageOrder = async (req, res, next) => {
+  const car = await Car.findById(req.params.id);
+  const { carImages } = req.body;
+  car.carImages = carImages;
+  car.save();
+  return res.json({ message: 'Image order updated successfully' });
+}
+
 module.exports = {
   getAllCars,
   getSingleCar,
-  deleteSingleImage
+  deleteSingleImage,
+  updateImageOrder
 }
