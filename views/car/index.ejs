@@ -453,6 +453,7 @@
           const clickedRowData = cars.find(e => e._id === selectedId);
           selectedItem = clickedRowData;
           $('#car-images').hide();
+          $('.order-images').text('Resim Sırasını Ayarla');
           $('#editModal input[name="name"]').val(clickedRowData.name);
           $('#editModal select[name="makeId"]').val(clickedRowData.make._id);
           $('#editModal select[name="makeId"]').change();
