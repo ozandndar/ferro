@@ -453,7 +453,17 @@
           const clickedRowData = cars.find(e => e._id === selectedId);
           selectedItem = clickedRowData;
           $('#car-images').hide();
-          $('.order-images').text('Resim Sırasını Ayarla');
+          
+
+          const isSortableActive = $('#car-images').hasClass('ui-sortable');
+
+          if (isSortableActive) {
+            $('#car-images').hide();
+            $('#car-images').sortable('destroy');
+            $('.order-images').text('Resim Sırasını Ayarla');
+            $('#car-images > div').removeClass('ui-state-default');
+          }
+
           $('#editModal input[name="name"]').val(clickedRowData.name);
           $('#editModal select[name="makeId"]').val(clickedRowData.make._id);
           $('#editModal select[name="makeId"]').change();
