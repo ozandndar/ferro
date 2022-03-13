@@ -40,6 +40,9 @@ const carSchema = new Schema({
   horsePower: {
     type: Number,
   },
+  engineCapacity: {
+    type: Number,
+  },
   driveTrain: {
     type: String,
   },

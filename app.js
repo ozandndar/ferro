@@ -55,7 +55,6 @@ app.use(mongoSanitize({
 }))
 app.use(morgan('dev'))
 
-
 // Authentication Configs
 const secret = process.env.SECRET || 'hellobarbiegirl!';
 const store = new MongoDBStore({
@@ -84,7 +83,6 @@ const sessionConfig = {
 
 app.use(session(sessionConfig));
 app.use(flash());
-
 
 app.use(passport.initialize());
 app.use(passport.session());

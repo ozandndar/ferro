@@ -101,7 +101,7 @@ const updateCar = async (req, res) => {
 
   const updatedCar = await Car.findByIdAndUpdate(req.params.id, updatedCarObj);
 
-  if(carImages.length > 0){
+  if (carImages.length > 0) {
     updatedCar.carImages.push(...carImages);
     updatedCar.save();
   }

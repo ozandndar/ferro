@@ -106,6 +106,11 @@
           </div>
 
           <div class="form-group mb-3">
+            <label>Motor Hacmi</label>
+            <input class="form-control" type="number" name="engineCapacity" />
+          </div>
+
+          <div class="form-group mb-3">
             <label>Çekiş</label>
             <select class="form-control" type="text" name="driveTrain">
               <option value="Önden Çekiş">Önden Çekiş</option>
@@ -329,6 +334,12 @@
                 <input class="form-control" type="number" name="horsePower" />
               </div>
 
+              
+              <div class="form-group mb-3 col-md-6">
+                <label>Motor Hacmi</label>
+                <input class="form-control" type="number" name="engineCapacity" />
+              </div>
+
               <div class="form-group mb-3 col-md-6">
                 <label>Çekiş</label>
                 <select class="form-control" type="text" name="driveTrain">
@@ -479,6 +490,7 @@
           $('#editModal select[name="fuelType"]').val(clickedRowData.fuelType);
           $('#editModal select[name="vehicleType"]').val(clickedRowData.vehicleType);
           $('#editModal input[name="horsePower"]').val(clickedRowData.horsePower);
+          $('#editModal input[name="engineCapacity"]').val(clickedRowData.engineCapacity);
           $('#editModal select[name="driveTrain"]').val(clickedRowData.driveTrain);
           $('#editModal select[name="gearType"]').val(clickedRowData.gearType);
           $('#editModal input[name="color"]').val(clickedRowData.color);
