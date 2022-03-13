@@ -15,6 +15,7 @@ const LocalStrategy = require('passport-local');
 const methodOverride = require('method-override');
 const mongoSanitize = require('express-mongo-sanitize');
 const ExpressError = require('./utils/ExpressError');
+const cors = require('cors');
 
 // Routes
 const authRoutes = require('./routes/user');
@@ -99,14 +100,13 @@ app.use((req, res, next) => {
     next();
 })
 
-
 // Routes
 app.use('/', authRoutes);
 app.use('/make', makeRoutes);
 app.use('/model', modelRoutes);
 app.use('/serie', serieRoutes);
 app.use('/car', carRoutes);
-app.use('/api/v1', apiRoutes);
+app.use('/api/v1', cors(), apiRoutes);
 
 // Default Error Midddleware
 app.use((err, req, res, next) => {
