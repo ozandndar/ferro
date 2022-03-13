@@ -715,7 +715,7 @@
         const response = await fetch('/api/v1/cars');
         const cars = await response.json();
         Swal.close();
-        return cars;
+        return cars.data;
       }
 
       const updateImageOrder = (imageIds, oldImageData) => {

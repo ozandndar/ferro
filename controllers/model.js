@@ -17,9 +17,6 @@ const createModel = async (req, res) => {
     make.models.push(model);
     await make.save();
 
-    console.log(model)
-    console.log(make)
-
     return res.redirect('/model');
 }
 
