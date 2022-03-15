@@ -242,7 +242,7 @@ button#sidebarCollapse {
 }
 
 .ui-sortable .single-car-image .fa {
-    display: none;
+    /* display: none; */
 }
 
 #car-images {
