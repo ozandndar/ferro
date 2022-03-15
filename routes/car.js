@@ -18,13 +18,13 @@ const { isLoggedIn } = require('../middleware');
 router.route('/')
   .get(isLoggedIn, catchAsync(renderAllCars))
   .post(isLoggedIn, upload.fields([
-    { name: 'carImages', maxCount: 25 },
+    { name: 'carImages', maxCount: 30 },
     { name: 'expertiseReportImage', maxCount: 1 }]), catchAsync(createCar));
 
 
 router.route('/:id')
   .put(isLoggedIn, upload.fields([
-    { name: 'carImages', maxCount: 25 },
+    { name: 'carImages', maxCount: 30 },
     { name: 'expertiseReportImage', maxCount: 1 }]), catchAsync(updateCar))
   .delete(isLoggedIn, catchAsync(deleteCar));
 

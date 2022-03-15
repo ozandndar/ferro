@@ -498,7 +498,7 @@
 
           $('#car-images').empty();
           clickedRowData.carImages.forEach(e => {
-            $('#car-images').append(`<div class="single-car-image" style="width: 100px; height: 100px; float: left; margin: 5px;" data-id="${e.filename.replace('/', '.')}">
+            $('#car-images').append(`<div class="single-car-image" style="width: 100%; max-width: 150px; height: 100px; float: left; margin: 5px;" data-id="${e.filename.replace('/', '.')}">
                 <i class="fa fa-times"></i>
                 <img src="${e.url}" style="object-fit: cover; max-width: 100%; width: 100%; height: 100%;">
               </div>`)

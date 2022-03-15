@@ -246,7 +246,8 @@ button#sidebarCollapse {
 }
 
 #car-images {
-	display: flex;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
 }
 
 .dashboard-quick-menu .card p {
