@@ -14,6 +14,7 @@ const { isLoggedIn } = require('../middleware');
 
 
 // TODO(Ozan): Add validation for these routes
+router.put('/update-order', isLoggedIn, catchAsync(updateCarOrder));
 
 router.route('/')
   .get(isLoggedIn, catchAsync(renderAllCars))
@@ -28,5 +29,4 @@ router.route('/:id')
     { name: 'expertiseReportImage', maxCount: 1 }]), catchAsync(updateCar))
   .delete(isLoggedIn, catchAsync(deleteCar));
 
-router.put('/update-order', isLoggedIn, catchAsync(updateCarOrder));
 module.exports = router;
