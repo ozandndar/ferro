@@ -2,6 +2,7 @@ const Make = require('../models/make');
 const Model = require('../models/model');
 const Serie = require('../models/serie');
 const Car = require('../models/car');
+const Mongoose = require('mongoose');
 
 const renderAllCars = async (req, res, next) => {
   const makes = await Make.find().populate({
@@ -29,6 +30,7 @@ const renderAllCars = async (req, res, next) => {
     }
   })
     .select('-__v')
+    .sort({ "order": 1})
     .lean();
   res.render('car/index', { makes, series, cars });
 }
@@ -109,6 +111,23 @@ const updateCar = async (req, res) => {
   return res.status(200).json(updatedCar);
 }
 
+const updateCarOrder = async (req, res) => {
+  const newCarOrders = req.body;
+  console.log(newCarOrders);
+  const bulkArr = [];
+  for (const i of newCarOrders) {
+    bulkArr.push({
+      updateOne: {
+        "filter": { "_id": Mongoose.Types.ObjectId(i.id) },
+        "update": { "order": i.order }
+      }
+    })
+  }
+
+  const result = await Car.bulkWrite(bulkArr);
+  res.json(result);
+}
+
 const deleteCar = async (req, res) => {
   const { id } = req.params;
 
@@ -120,5 +139,6 @@ module.exports = {
   renderAllCars,
   createCar,
   updateCar,
-  deleteCar
+  deleteCar,
+  updateCarOrder
 }

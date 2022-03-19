@@ -71,6 +71,10 @@ const carSchema = new Schema({
   carImages: [
     ImageSchema
   ],
+  order: {
+    type: Number,
+    default: 0
+  },
   make: {
     type: Schema.Types.ObjectId,
     ref: 'Make'

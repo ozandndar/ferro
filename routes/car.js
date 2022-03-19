@@ -9,7 +9,7 @@ const upload = multer({
   limits: { fileSize: 1548576 }
 });
 
-const { renderAllCars, createCar, deleteCar, updateCar } = require('../controllers/car');
+const { renderAllCars, createCar, deleteCar, updateCar, updateCarOrder } = require('../controllers/car');
 const { isLoggedIn } = require('../middleware');
 
 
@@ -28,4 +28,5 @@ router.route('/:id')
     { name: 'expertiseReportImage', maxCount: 1 }]), catchAsync(updateCar))
   .delete(isLoggedIn, catchAsync(deleteCar));
 
+router.put('/update-order', isLoggedIn, catchAsync(updateCarOrder));
 module.exports = router;

@@ -104,6 +104,7 @@ const getAllCars = async (req, res, next) => {
       select: '-__v -cars -model',
     })
     .select('-__v')
+    .sort({ "order": 1})
     .lean();
 
   const totalData = cars.length;

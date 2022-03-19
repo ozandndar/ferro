@@ -198,9 +198,13 @@
       </div>
       <div class="col-md-8">
         <h3 class="mb-4">Araçlar Listesi</h3>
+        <div class="mb-3">
+          <button class="btn btn-dark update-order">Sırayı Güncelle</button>
+        </div>
         <table class="table table-dark table-striped" id="data-table" style="table-layout: fixed;">
           <thead>
             <tr>
+              <th style="width: 55px;" class="text-center">#</th>
               <th colspan="2">İlan Adı</th>
               <th>Marka</th>
               <th>Model</th>
@@ -209,8 +213,11 @@
             </tr>
           </thead>
           <tbody>
-            <% for(let car of cars) {%>
-              <tr data-id="<%= car._id %>">
+            <% for(let [index, car] of cars.entries()) {%>
+              <tr data-id="<%= car._id %>" data-order="<%= index %>">
+                <td style="width: 55px;" class="text-center order">
+                  <%= index + 1 %>
+                </td>
                 <td colspan="2">
                   <%= car?.name %>
                 </td>
@@ -334,7 +341,7 @@
                 <input class="form-control" type="number" name="horsePower" />
               </div>
 
-              
+
               <div class="form-group mb-3 col-md-6">
                 <label>Motor Hacmi</label>
                 <input class="form-control" type="number" name="engineCapacity" />
@@ -460,12 +467,28 @@
         const series = parser(`<%- JSON.stringify(series) %>`);
         const cars = await fetchCars();
 
+        $('tbody').sortable({
+          start: function (event, ui) { },
+          change: function (event, ui) { },
+          update: function (event, ui) {
+            $(event.target)
+              .find('tr')
+              .map((index, item) => {
+                $(item)
+                  .find('.order')
+                  .text(index + 1)
+                  .parent()
+                  .attr('data-order', index)
+              });
+          },
+        });
+        $('tbody').disableSelection();
+
         $('#data-table tbody tr').on('click', function () {
           selectedId = $(this).closest('tr').data().id;
           const clickedRowData = cars.find(e => e._id === selectedId);
           selectedItem = clickedRowData;
           $('#car-images').hide();
-          
 
           const isSortableActive = $('#car-images').hasClass('ui-sortable');
 
@@ -670,6 +693,50 @@
             $(this).text('Resim Sırasını Kaydet');
           }
         })
+
+
+        $('.update-order').on('click', function () {
+          const newCarOrders = [];
+
+          $('#data-table tbody tr').each(function (index, item) {
+            const id = $(item).data('id');
+            const order = $(item).data('order');
+            newCarOrders.push({
+              id,
+              order: index
+            })
+          })
+          showLoading();
+          $.ajax({
+            url: '/car/update-order',
+            type: 'PUT',
+            data: JSON.stringify(newCarOrders),
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (response) {
+              Swal.fire({
+                position: 'bottom-end',
+                icon: 'success',
+                title: 'Sıralama Başarıyla Güncellendi.',
+                showConfirmButton: false,
+                timer: 1000
+              })
+              Swal.close();
+            },
+            error: function (err) {
+              Swal.fire({
+                position: 'bottom-end',
+                icon: 'danger',
+                title: 'Sıralama Güncellenirken Hata Oluştu.',
+                showConfirmButton: false,
+                timer: 1000
+              })
+              Swal.close();
+            }
+          });
+        })
+
+
 
         var toolbarOptions = [
           ['bold', 'italic', 'underline'],        // toggled buttons
